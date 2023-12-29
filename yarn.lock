@@ -124,6 +124,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@atlasgroup/react-wrap@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@atlasgroup/react-wrap@npm:1.3.0"
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 5afe1fb007afefc193bb7fcad9f0952fe7a794a3d9e24c021c19a8f41ec4589bec1670d5acc70af261702d56b6c3616435dcf34d4311daf725e570d856b61467
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.10.4, @babel/code-frame@npm:^7.22.13, @babel/code-frame@npm:^7.23.5":
   version: 7.23.5
   resolution: "@babel/code-frame@npm:7.23.5"
@@ -6941,6 +6950,7 @@ __metadata:
   dependencies:
     "@apollo/client": latest
     "@apollo/experimental-nextjs-app-support": ^0.5.2
+    "@atlasgroup/react-wrap": ^1.3.0
     "@graphql-codegen/cli": ^5.0.0
     "@graphql-codegen/client-preset": ^4.1.0
     "@graphql-codegen/near-operation-file-preset": ^3.0.0
