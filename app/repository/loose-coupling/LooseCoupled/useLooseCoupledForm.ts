@@ -3,9 +3,7 @@ import {
   CreateIssueMutationVariables,
   RepositoryQueryVariables,
 } from "@/gql/graphql";
-import { useMutation } from "@apollo/client";
-import { createIssueMutation } from "@/repository/repository";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 type useLooseCoupledFormProps = Partial<
   Pick<CreateIssueInput, "repositoryId"> &
@@ -13,40 +11,18 @@ type useLooseCoupledFormProps = Partial<
 >;
 
 export const useLooseCoupledForm = ({
-  repositoryId,
   owner,
   name,
 }: useLooseCoupledFormProps) => {
   const repo = `${owner}/${name}`;
-  const [createIssue] = useMutation(createIssueMutation);
 
-  const formProps = useForm<
-    Pick<CreateIssueMutationVariables["input"], "body" | "title">
-  >({
-    defaultValues: {
-      title: `Title for repo ${repo}`,
-      body: `Body for repo ${repo}`,
-    },
-  });
-
-  const onSubmit: SubmitHandler<
-    Pick<CreateIssueMutationVariables["input"], "body" | "title">
-  > = (formData) => {
-    if (!repositoryId) return;
-
-    createIssue({
-      variables: {
-        input: {
-          repositoryId,
-          body: formData.body,
-          title: formData.title,
-        },
+  // here could be more configuration for the useForm hook that can be tested
+  return useForm<Pick<CreateIssueMutationVariables["input"], "body" | "title">>(
+    {
+      defaultValues: {
+        title: `Title for repo ${repo}`,
+        body: `Body for repo ${repo}`,
       },
-    }).catch(console.error);
-  };
-
-  return {
-    onSubmit: formProps.handleSubmit(onSubmit),
-    ...formProps,
-  };
+    }
+  );
 };

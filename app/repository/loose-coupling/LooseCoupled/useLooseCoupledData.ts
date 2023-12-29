@@ -16,6 +16,8 @@ export const useLooseCoupledData = ({
     name && owner ? { variables: { name, owner } } : skipToken
   );
 
+  // here could be some testable data transformation
+
   return {
     id: data?.repository?.id,
     owner: data?.repository?.owner?.login,

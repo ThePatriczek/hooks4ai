@@ -29,25 +29,23 @@ export const LooseCoupledView = ({
   bodyInputProps,
   bodyError,
   createdAt,
-}: LooseCoupledViewProps) => {
-  return (
-    <div>
-      <h1>Loose coupled component</h1>
-      <form onSubmit={onSubmit} className={`flex flex-col`}>
-        <input data-testid={`input-title`} {...titleInputProps} />
-        {titleError && (
-          <span data-testid={`error-title`}>Title field is required</span>
-        )}
+}: LooseCoupledViewProps) => (
+  <div>
+    <h1>Loose coupled component</h1>
+    <form onSubmit={onSubmit} className={`flex flex-col`}>
+      <input data-testid={`input-title`} {...titleInputProps} />
+      {titleError && (
+        <span data-testid={`error-title`}>Title field is required</span>
+      )}
 
-        <input data-testid={`input-body`} {...bodyInputProps} />
-        {bodyError && (
-          <span data-testid={`error-body`}>Body field is required</span>
-        )}
+      <input data-testid={`input-body`} {...bodyInputProps} />
+      {bodyError && (
+        <span data-testid={`error-body`}>Body field is required</span>
+      )}
 
-        <button type="submit">Submit</button>
-      </form>
+      <button type="submit">Submit</button>
+    </form>
 
-      {dayjs(createdAt).format("YYYY-MM-DD")}
-    </div>
-  );
-};
+    {dayjs(createdAt).format("YYYY-MM-DD")}
+  </div>
+);

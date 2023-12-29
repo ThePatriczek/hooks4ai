@@ -18,6 +18,7 @@ export const TightCoupled = () => {
     name && owner ? { variables: { name, owner } } : skipToken
   );
 
+  // coupling with apollo client
   const [createIssue] = useMutation(createIssueMutation);
 
   const repo = `${data?.repository?.owner.login}/${data?.repository?.name}`;
