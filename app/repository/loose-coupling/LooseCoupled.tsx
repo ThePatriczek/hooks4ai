@@ -6,12 +6,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { RepositoryQueryVariables } from "@/app/gql/graphql";
 import { repositoryQuery } from "@/app/repository/repositoryQuery";
 import { wrap } from "@atlasgroup/react-wrap";
+import dayjs from "dayjs";
 
 type LooseCoupledViewProps = ReturnType<typeof useLooseCoupled>;
 const LooseCoupledView = ({
   formState,
   register,
   onSubmit,
+  data,
   handleSubmit,
 }: LooseCoupledViewProps) => {
   return (
@@ -25,6 +27,8 @@ const LooseCoupledView = ({
         {formState.errors.name && <span>This field is required</span>}
 
         <button type="submit">Submit</button>
+
+        {dayjs(data?.repository?.createdAt).format("YYYY-MM-DD")}
       </form>
     </div>
   );
