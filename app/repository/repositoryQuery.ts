@@ -10,6 +10,7 @@ export const repositoryQuery = graphql(`
       }
       name
       stargazerCount
+      createdAt
     }
   }
 `);
