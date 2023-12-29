@@ -5,14 +5,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RepositoryQueryVariables } from "@/app/gql/graphql";
 import { repositoryQuery } from "@/app/repository/repositoryQuery";
-
-export const LooseCoupled = () => {
-  const looseCoupledViewProps = useLooseCoupled();
-  return <LooseCoupledView {...looseCoupledViewProps} />;
-};
+import { wrap } from "@atlasgroup/react-wrap";
 
 type LooseCoupledViewProps = ReturnType<typeof useLooseCoupled>;
-
 const LooseCoupledView = ({
   formState,
   register,
@@ -62,3 +57,5 @@ const useLooseCoupled = () => {
     ...hookFormProps,
   };
 };
+
+export const LooseCoupled = wrap(LooseCoupledView, useLooseCoupled);
