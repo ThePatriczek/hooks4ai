@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RepositoryQueryVariables } from "@/app/gql/graphql";
 import { repositoryQuery } from "@/app/repository/repositoryQuery";
+import dayjs from "dayjs";
 
 export const TightCoupled = () => {
   const router = useRouter(); // coupling with nextjs router
@@ -46,6 +47,9 @@ export const TightCoupled = () => {
 
         <button type="submit">Submit</button>
       </form>
+
+      {/* coupling with dayjs */}
+      {dayjs(data?.repository?.createdAt).format("YYYY-MM-DD")}
     </div>
   );
 };
