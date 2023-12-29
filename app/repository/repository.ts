@@ -1,4 +1,4 @@
-import { graphql } from "@/app/gql";
+import { graphql } from "@/gql";
 
 export const repositoryQuery = graphql(`
   query repository($owner: String!, $name: String!) {

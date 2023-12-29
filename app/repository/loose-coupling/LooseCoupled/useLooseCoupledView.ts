@@ -1,9 +1,9 @@
 "use client";
 
-import { LooseCoupledViewProps } from "@/app/repository/loose-coupling/LooseCoupled/LooseCoupledView";
+import { LooseCoupledViewProps } from "@/repository/loose-coupling/LooseCoupled/LooseCoupledView";
 import { useSearchParams } from "next/navigation";
-import { useLooseCoupledData } from "@/app/repository/loose-coupling/LooseCoupled/useLooseCoupledData";
-import { useLooseCoupledForm } from "@/app/repository/loose-coupling/LooseCoupled/useLooseCoupledForm";
+import { useLooseCoupledData } from "@/repository/loose-coupling/LooseCoupled/useLooseCoupledData";
+import { useLooseCoupledForm } from "@/repository/loose-coupling/LooseCoupled/useLooseCoupledForm";
 
 export const useLooseCoupledView = (): LooseCoupledViewProps => {
   const searchParams = useSearchParams();

@@ -2,9 +2,9 @@ import {
   CreateIssueInput,
   CreateIssueMutationVariables,
   RepositoryQueryVariables,
-} from "@/app/gql/graphql";
+} from "@/gql/graphql";
 import { useMutation } from "@apollo/client";
-import { createIssueMutation } from "@/app/repository/repository";
+import { createIssueMutation } from "@/repository/repository";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type useLooseCoupledFormProps = Partial<

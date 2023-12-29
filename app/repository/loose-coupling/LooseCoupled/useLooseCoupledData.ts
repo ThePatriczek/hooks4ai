@@ -1,6 +1,6 @@
-import { RepositoryQueryVariables } from "@/app/gql/graphql";
+import { RepositoryQueryVariables } from "@/gql/graphql";
 import { skipToken, useSuspenseQuery } from "@apollo/client";
-import { repositoryQuery } from "@/app/repository/repository";
+import { repositoryQuery } from "@/repository/repository";
 
 type useLooseCoupledDataProps = {
   owner: RepositoryQueryVariables["owner"] | null;

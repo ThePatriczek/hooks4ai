@@ -34,11 +34,15 @@ export const LooseCoupledView = ({
     <div>
       <h1>Loose coupled component</h1>
       <form onSubmit={onSubmit} className={`flex flex-col`}>
-        <input {...titleInputProps} />
-        {titleError && <span>Title field is required</span>}
+        <input data-testid={`input-title`} {...titleInputProps} />
+        {titleError && (
+          <span data-testid={`error-title`}>Title field is required</span>
+        )}
 
-        <input {...bodyInputProps} />
-        {bodyError && <span>Body field is required</span>}
+        <input data-testid={`input-body`} {...bodyInputProps} />
+        {bodyError && (
+          <span data-testid={`error-body`}>Body field is required</span>
+        )}
 
         <button type="submit">Submit</button>
       </form>

@@ -3,11 +3,8 @@
 import { useSuspenseQuery, skipToken, useMutation } from "@apollo/client";
 import { useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CreateIssueMutationVariables } from "@/app/gql/graphql";
-import {
-  createIssueMutation,
-  repositoryQuery,
-} from "@/app/repository/repository";
+import { CreateIssueMutationVariables } from "@/gql/graphql";
+import { createIssueMutation, repositoryQuery } from "@/repository/repository";
 import dayjs from "dayjs";
 
 export const TightCoupled = () => {
@@ -59,11 +56,21 @@ export const TightCoupled = () => {
       <h2>Create new issue</h2>
       {/* coupling with react-hook-form */}
       <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
-        <input {...register("title", { required: true })} />
-        {errors.title && <span>Title field is required</span>}
+        <input
+          data-testid={`input-title`}
+          {...register("title", { required: true })}
+        />
+        {errors.title && (
+          <span data-testid={`error-title`}>Title field is required</span>
+        )}
 
-        <input {...register("body", { required: true })} />
-        {errors.body && <span>Body field is required</span>}
+        <input
+          data-testid={`input-body`}
+          {...register("body", { required: true })}
+        />
+        {errors.body && (
+          <span data-testid={`error-body`}>Body field is required</span>
+        )}
 
         <button type="submit">Submit</button>
       </form>
