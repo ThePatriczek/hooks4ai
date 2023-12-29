@@ -31,7 +31,11 @@ export const TightCoupled = () => {
     name && owner ? { variables: { name, owner } } : skipToken
   );
 
-  const { register, handleSubmit } = useForm<RepositoryQueryVariables>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RepositoryQueryVariables>({
     defaultValues: {
       name: data?.repository?.name,
       owner: data?.repository?.owner.login,
@@ -44,9 +48,13 @@ export const TightCoupled = () => {
   return (
     <div>
       <h1>Tight coupled component</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("owner")} />
-        <input {...register("name")} />
+      <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
+        <input {...register("owner", { required: true })} />
+        {errors.owner && <span>This field is required</span>}
+
+        <input {...register("name", { required: true })} />
+        {errors.name && <span>This field is required</span>}
+
         <button type="submit">Submit</button>
       </form>
     </div>
