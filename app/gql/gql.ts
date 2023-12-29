@@ -13,7 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query repository($owner: String!, $name: String!) {\n    repository(owner: $owner, name: $name) {\n      id\n      owner {\n        id\n        login\n      }\n      name\n      stargazerCount\n      createdAt\n    }\n  }\n": types.RepositoryDocument,
+    "\n  query repository($owner: String!, $name: String!) {\n    repository(owner: $owner, name: $name) {\n      id\n      owner {\n        id\n        login\n      }\n      name\n      stargazerCount\n      createdAt\n      updatedAt\n    }\n  }\n": types.RepositoryDocument,
+    "\n  mutation createIssue($input: CreateIssueInput!) {\n    createIssue(input: $input) {\n      clientMutationId\n      issue {\n        id\n      }\n    }\n  }\n": types.CreateIssueDocument,
 };
 
 /**
@@ -33,7 +34,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query repository($owner: String!, $name: String!) {\n    repository(owner: $owner, name: $name) {\n      id\n      owner {\n        id\n        login\n      }\n      name\n      stargazerCount\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  query repository($owner: String!, $name: String!) {\n    repository(owner: $owner, name: $name) {\n      id\n      owner {\n        id\n        login\n      }\n      name\n      stargazerCount\n      createdAt\n    }\n  }\n"];
+export function graphql(source: "\n  query repository($owner: String!, $name: String!) {\n    repository(owner: $owner, name: $name) {\n      id\n      owner {\n        id\n        login\n      }\n      name\n      stargazerCount\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query repository($owner: String!, $name: String!) {\n    repository(owner: $owner, name: $name) {\n      id\n      owner {\n        id\n        login\n      }\n      name\n      stargazerCount\n      createdAt\n      updatedAt\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation createIssue($input: CreateIssueInput!) {\n    createIssue(input: $input) {\n      clientMutationId\n      issue {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation createIssue($input: CreateIssueInput!) {\n    createIssue(input: $input) {\n      clientMutationId\n      issue {\n        id\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

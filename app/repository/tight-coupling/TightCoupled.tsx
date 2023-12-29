@@ -1,14 +1,16 @@
 "use client";
 
-import { useSuspenseQuery, skipToken } from "@apollo/client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSuspenseQuery, skipToken, useMutation } from "@apollo/client";
+import { useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { RepositoryQueryVariables } from "@/app/gql/graphql";
-import { repositoryQuery } from "@/app/repository/repositoryQuery";
+import { CreateIssueMutationVariables } from "@/app/gql/graphql";
+import {
+  createIssueMutation,
+  repositoryQuery,
+} from "@/app/repository/repository";
 import dayjs from "dayjs";
 
 export const TightCoupled = () => {
-  const router = useRouter(); // coupling with nextjs router
   const searchParams = useSearchParams(); // coupling with nextjs search params
   const owner = searchParams.get("owner");
   const name = searchParams.get("name");
@@ -19,31 +21,49 @@ export const TightCoupled = () => {
     name && owner ? { variables: { name, owner } } : skipToken
   );
 
+  const [createIssue] = useMutation(createIssueMutation);
+
+  const repo = `${data?.repository?.owner.login}/${data?.repository?.name}`;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RepositoryQueryVariables>({
+  } = useForm<Pick<CreateIssueMutationVariables["input"], "body" | "title">>({
     // coupling with react-hook-form
     defaultValues: {
-      name: data?.repository?.name,
-      owner: data?.repository?.owner.login,
+      title: `Title for repo ${repo}`,
+      body: `Body for repo ${repo}`,
     },
   });
 
-  const onSubmit: SubmitHandler<RepositoryQueryVariables> = (data) =>
-    router.push(`?owner=${data.owner}&name=${data.name}`); // coupling with nextjs router
+  const onSubmit: SubmitHandler<
+    Pick<CreateIssueMutationVariables["input"], "body" | "title">
+  > = (formData) => {
+    if (!data?.repository?.id) return;
+
+    createIssue({
+      variables: {
+        input: {
+          repositoryId: data?.repository?.id,
+          body: formData.body,
+          title: formData.title,
+        },
+      },
+    }).catch(console.error);
+  };
 
   return (
     <div>
       <h1>Tight coupled component</h1>
+      <h2>Create new issue</h2>
       {/* coupling with react-hook-form */}
       <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
-        <input {...register("owner", { required: true })} />
-        {errors.owner && <span>This field is required</span>}
+        <input {...register("title", { required: true })} />
+        {errors.title && <span>Title field is required</span>}
 
-        <input {...register("name", { required: true })} />
-        {errors.name && <span>This field is required</span>}
+        <input {...register("body", { required: true })} />
+        {errors.body && <span>Body field is required</span>}
 
         <button type="submit">Submit</button>
       </form>

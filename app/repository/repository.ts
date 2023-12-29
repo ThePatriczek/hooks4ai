@@ -11,6 +11,18 @@ export const repositoryQuery = graphql(`
       name
       stargazerCount
       createdAt
+      updatedAt
+    }
+  }
+`);
+
+export const createIssueMutation = graphql(`
+  mutation createIssue($input: CreateIssueInput!) {
+    createIssue(input: $input) {
+      clientMutationId
+      issue {
+        id
+      }
     }
   }
 `);
