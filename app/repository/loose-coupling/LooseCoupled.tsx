@@ -7,6 +7,26 @@ import { RepositoryQueryVariables } from "@/app/gql/graphql";
 import { repositoryQuery } from "@/app/repository/repositoryQuery";
 
 export const LooseCoupled = () => {
+  const { formState, register, data, onSubmit, handleSubmit } =
+    useLooseCoupled();
+
+  return (
+    <div>
+      <h1>Loose coupled component</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
+        <input {...register("owner", { required: true })} />
+        {formState.errors.owner && <span>This field is required</span>}
+
+        <input {...register("name", { required: true })} />
+        {formState.errors.name && <span>This field is required</span>}
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+
+const useLooseCoupled = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const owner = searchParams.get("owner");
@@ -17,11 +37,7 @@ export const LooseCoupled = () => {
     name && owner ? { variables: { name, owner } } : skipToken
   );
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RepositoryQueryVariables>({
+  const hookFormProps = useForm<RepositoryQueryVariables>({
     defaultValues: {
       name: data?.repository?.name,
       owner: data?.repository?.owner.login,
@@ -31,18 +47,9 @@ export const LooseCoupled = () => {
   const onSubmit: SubmitHandler<RepositoryQueryVariables> = (data) =>
     router.push(`?owner=${data.owner}&name=${data.name}`);
 
-  return (
-    <div>
-      <h1>Tight coupled component</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
-        <input {...register("owner", { required: true })} />
-        {errors.owner && <span>This field is required</span>}
-
-        <input {...register("name", { required: true })} />
-        {errors.name && <span>This field is required</span>}
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  );
+  return {
+    onSubmit,
+    data,
+    ...hookFormProps,
+  };
 };
