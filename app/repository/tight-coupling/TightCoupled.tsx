@@ -3,22 +3,8 @@
 import { useSuspenseQuery, skipToken } from "@apollo/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { graphql } from "@/app/gql";
 import { RepositoryQueryVariables } from "@/app/gql/graphql";
-
-const repositoryQuery = graphql(`
-  query repository($owner: String!, $name: String!) {
-    repository(owner: $owner, name: $name) {
-      id
-      owner {
-        id
-        login
-      }
-      name
-      stargazerCount
-    }
-  }
-`);
+import { repositoryQuery } from "@/app/repository/repositoryQuery";
 
 export const TightCoupled = () => {
   const router = useRouter();
