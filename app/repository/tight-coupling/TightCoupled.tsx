@@ -7,12 +7,13 @@ import { RepositoryQueryVariables } from "@/app/gql/graphql";
 import { repositoryQuery } from "@/app/repository/repositoryQuery";
 
 export const TightCoupled = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const router = useRouter(); // coupling with nextjs router
+  const searchParams = useSearchParams(); // coupling with nextjs search params
   const owner = searchParams.get("owner");
   const name = searchParams.get("name");
 
   const { data } = useSuspenseQuery(
+    // coupling with apollo client
     repositoryQuery,
     name && owner ? { variables: { name, owner } } : skipToken
   );
@@ -22,6 +23,7 @@ export const TightCoupled = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<RepositoryQueryVariables>({
+    // coupling with react-hook-form
     defaultValues: {
       name: data?.repository?.name,
       owner: data?.repository?.owner.login,
@@ -29,11 +31,12 @@ export const TightCoupled = () => {
   });
 
   const onSubmit: SubmitHandler<RepositoryQueryVariables> = (data) =>
-    router.push(`?owner=${data.owner}&name=${data.name}`);
+    router.push(`?owner=${data.owner}&name=${data.name}`); // coupling with nextjs router
 
   return (
     <div>
       <h1>Tight coupled component</h1>
+      {/* coupling with react-hook-form */}
       <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col`}>
         <input {...register("owner", { required: true })} />
         {errors.owner && <span>This field is required</span>}
