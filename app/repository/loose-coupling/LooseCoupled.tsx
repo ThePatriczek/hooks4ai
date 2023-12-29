@@ -13,8 +13,8 @@ const LooseCoupledView = ({
   formState,
   register,
   onSubmit,
-  data,
   handleSubmit,
+  createdAt,
 }: LooseCoupledViewProps) => {
   return (
     <div>
@@ -28,7 +28,7 @@ const LooseCoupledView = ({
 
         <button type="submit">Submit</button>
 
-        {dayjs(data?.repository?.createdAt).format("YYYY-MM-DD")}
+        {dayjs(createdAt).format("YYYY-MM-DD")}
       </form>
     </div>
   );
@@ -40,7 +40,11 @@ const useLooseCoupledData = ({ name, owner }: RepositoryQueryVariables) => {
     name && owner ? { variables: { name, owner } } : skipToken
   );
 
-  return data;
+  return {
+    owner: data?.repository?.owner?.login,
+    name: data?.repository?.name,
+    createdAt: data?.repository?.createdAt,
+  };
 };
 
 const useLooseCoupled = () => {
@@ -49,12 +53,12 @@ const useLooseCoupled = () => {
   const owner = searchParams.get("owner");
   const name = searchParams.get("name");
 
-  const data = useLooseCoupledData({ name, owner });
+  const dataProps = useLooseCoupledData({ name, owner });
 
   const hookFormProps = useForm<RepositoryQueryVariables>({
     defaultValues: {
-      name: data?.repository?.name,
-      owner: data?.repository?.owner.login,
+      name: dataProps.name,
+      owner: dataProps.owner,
     },
   });
 
@@ -63,7 +67,7 @@ const useLooseCoupled = () => {
 
   return {
     onSubmit,
-    data,
+    createdAt: dataProps.createdAt,
     ...hookFormProps,
   };
 };
