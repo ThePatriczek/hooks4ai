@@ -30,16 +30,22 @@ const LooseCoupledView = ({
   );
 };
 
+const useLooseCoupledData = ({ name, owner }: RepositoryQueryVariables) => {
+  const { data } = useSuspenseQuery(
+    repositoryQuery,
+    name && owner ? { variables: { name, owner } } : skipToken
+  );
+
+  return data;
+};
+
 const useLooseCoupled = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const owner = searchParams.get("owner");
   const name = searchParams.get("name");
 
-  const { data } = useSuspenseQuery(
-    repositoryQuery,
-    name && owner ? { variables: { name, owner } } : skipToken
-  );
+  const data = useLooseCoupledData({ name, owner });
 
   const hookFormProps = useForm<RepositoryQueryVariables>({
     defaultValues: {
