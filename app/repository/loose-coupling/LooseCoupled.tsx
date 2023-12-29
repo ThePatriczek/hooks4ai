@@ -7,9 +7,18 @@ import { RepositoryQueryVariables } from "@/app/gql/graphql";
 import { repositoryQuery } from "@/app/repository/repositoryQuery";
 
 export const LooseCoupled = () => {
-  const { formState, register, data, onSubmit, handleSubmit } =
-    useLooseCoupled();
+  const looseCoupledViewProps = useLooseCoupled();
+  return <LooseCoupledView {...looseCoupledViewProps} />;
+};
 
+type LooseCoupledViewProps = ReturnType<typeof useLooseCoupled>;
+
+const LooseCoupledView = ({
+  formState,
+  register,
+  onSubmit,
+  handleSubmit,
+}: LooseCoupledViewProps) => {
   return (
     <div>
       <h1>Loose coupled component</h1>
